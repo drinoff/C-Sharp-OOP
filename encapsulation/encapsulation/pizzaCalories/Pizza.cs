@@ -1,41 +1,52 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace pizzaCalories
+namespace _05.PizzaCalories
 {
-    class Pizza
+    public class Pizza
     {
+        private const int numberOfToppings = 10;
+
         private string name;
         private Dough dough;
         private List<Topping> toppings;
-        private double calories;
+       
 
-        public Pizza(string name)
+        public Pizza(string name,Dough dough)
         {
-            this.name = name;
-            toppings = new List<Topping>();
-            this.Calories = calories;
+            this.Name = name;
+            this.dough = dough;
+            this.toppings = new List<Topping>();
+            TotalCalories += dough.CalculateCalories();
         }
 
-        public string Name { get => this.name; }
-        public int ToppingsCount { get => this.toppings.Count; }
+        public double TotalCalories { get; set; }
 
-        public double Calories 
+        public string Name
         {
-            get => this.calories;
-            set { this.Calories = this.dough.Calories + toppings.Sum(x => x.Calories); }
-        }
-        public Dough Dough
-        {
-            get;
-            set
+            get => this.name;
+            private set
             {
-                this.Dough.flourType = value;
+                if (value.Length > 15 || string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Pizza name should be between 1 and 15 symbols.");
+                }
+
+                this.name = value;
+                
             }
+
         }
 
-        
+        public void AddToppings(Topping topping)
+        {
+            if (this.toppings.Count>=numberOfToppings)
+            {
+                throw new ArgumentException("Number of toppings should be in range [0..10].");
+            }
+            this.toppings.Add(topping);
+
+            TotalCalories += topping.CalculateCalories();
+        }
     }
 }

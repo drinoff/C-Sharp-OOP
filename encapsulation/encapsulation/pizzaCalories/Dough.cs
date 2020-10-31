@@ -1,89 +1,103 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System;
 
-namespace pizzaCalories
+namespace _05.PizzaCalories
 {
     public class Dough
     {
+        private const double Calories = 2;
         private const double White = 1.5;
-        private const double WholeGrain = 1;
+        private const double Wholegrain = 1.0;
         private const double Crispy = 0.9;
         private const double Chewy = 1.1;
         private const double Homemade = 1.0;
 
-        private double flourTypeMod;
-        private double bakingTechMod;
-        internal string flourType;
+        private string flourType;
         private string bakingTechnique;
         private double weight;
-        private double calories;
 
-        public Dough(string flourType,string bakingTechnique, double weight)
+        public Dough(string flourType, string bakingTechnique, double weight)
         {
-            this.flourType = flourType;
-            this.bakingTechnique = bakingTechnique;
+            this.FlourType = flourType;
+            this.BakingTechnique = bakingTechnique;
             this.Weight = weight;
-            this.Calories = calories;
         }
-        public double Calories
+
+        public string FlourType
         {
-            get { return this.calories; }
+            get => this.flourType;
             private set
             {
-                this.flourTypeMod = FlourTypeModifierSetter(this.flourType);
-                this.bakingTechMod = BakingTechModifierSetter(this.bakingTechnique);
+                if (value.ToLower() != "white" && value.ToLower() != "wholegrain")
+                {
+                    throw new ArgumentException("Invalid type of dough.");
+                }
 
-                calories = (2 * weight * flourTypeMod * bakingTechMod);
+                this.flourType = value;
             }
         }
-        private double Weight
+
+        public string BakingTechnique
         {
-            get { return this.weight; }
-            set
+            get => this.bakingTechnique;
+
+            private set
             {
-                if(value<1 || value >200)
+                if (value.ToLower()!= "crispy"&&value.ToLower()!= "chewy"&& value.ToLower()!= "homemade")
+                {
+                    throw new ArgumentException("Invalid type of dough.");
+                }
+
+                this.bakingTechnique = value;
+            }
+        }
+
+        public double Weight
+        {
+            get => this.weight;
+            private set
+            {
+                if (value < 1 || value > 200)
                 {
                     throw new ArgumentException("Dough weight should be in the range [1..200].");
                 }
+
                 this.weight = value;
             }
         }
-        private double FlourTypeModifierSetter(string flourType)
+
+        public double CalculateCalories()
         {
-            if (this.flourType == "white" || this.flourType == "White")
+            var calories = Calories * this.weight;
+            var modifier = 1.0;
+            switch (this.flourType.ToLower())
             {
-                this.flourTypeMod = White;
+                case "white":
+                    modifier *= White;
+                    break;
+                case "wholegrain":
+                    modifier *= Wholegrain;
+                    break;
+                default:
+                    modifier = 1;
+                    break;
             }
-            else if (this.flourType == "wholegrain"|| this.flourType == "Wholegrain")
+
+            switch (this.bakingTechnique.ToLower())
             {
-                this.flourTypeMod = WholeGrain;
+                case "crispy":
+                    modifier *= Crispy;
+                    break;
+                case "chewy":
+                    modifier *= Chewy;
+                    break;
+                case "homemade":
+                    modifier *= Homemade;
+                    break;
             }
-            else
-            {
-                throw new ArgumentException("Invalid type of dough.");
-            }
-            return this.flourTypeMod;
-        }
-        private double BakingTechModifierSetter(string bakingTechnique)
-        {
-            if (bakingTechnique == "crispy"|| bakingTechnique == "Crispy")
-            {
-                this.bakingTechMod = Crispy;
-            }
-            else if (bakingTechnique == "chewy"|| bakingTechnique == "Chewy")
-            {
-                this.bakingTechMod = Chewy;
-            }
-            else if (bakingTechnique == "homemade"|| bakingTechnique == "Homemade")
-            {
-                this.bakingTechMod = Homemade;
-            }
-            else
-            {
-                throw new ArgumentException("Invalid type of dough."); 
-            }
-            return bakingTechMod;
+
+            calories *= modifier;
+
+            return calories;
         }
     }
 }
