@@ -1,4 +1,5 @@
 ﻿using System;
+using wildFarm.Core;
 
 namespace wildFarm
 {
@@ -6,7 +7,8 @@ namespace wildFarm
     {
         static void Main(string[] args)
         {
-            
+            var engine = new Engine();
+            engine.Run();
         }
     }
 }

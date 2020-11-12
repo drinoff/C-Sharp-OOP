@@ -11,5 +11,6 @@ namespace wildFarm.Models.Animals.Contracts
         int FoodEaten { get; }
 
         string ProduceSound();
+        void Feed(IFood food);
     }
 }

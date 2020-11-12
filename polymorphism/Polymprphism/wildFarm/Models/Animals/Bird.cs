@@ -6,6 +6,10 @@ namespace wildFarm.Models.Animals
 {
    public abstract class Bird : Animal
     {
+        public Bird()
+        {
+
+        }
         public Bird(string name,double weight,double wingSize)
             :base(name,weight)
         {

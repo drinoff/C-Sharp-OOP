@@ -8,6 +8,10 @@ namespace wildFarm.Models.Animals
     
     public abstract class Animal : IAnimal
     {
+        public Animal()
+        {
+
+        }
         
         public Animal(string name,double weight)
         {
@@ -27,11 +31,12 @@ namespace wildFarm.Models.Animals
         public abstract string ProduceSound();
         public void Feed(IFood food)
         {
-            if(!this.eatableFood.Contains(typeof(Food)))
+            if(!this.eatableFood.Contains(food.GetType()))
             {
-                throw new InvalidFoodException($"{this.GetType().Name} does not eat {food.GetType().Name}");
+                throw new InvalidFoodException($"{this.GetType().Name} does not eat {food.GetType().Name}!");
             }
             this.Weight += food.Quantity * weightModifier;
+            this.FoodEaten += food.Quantity;
         }
         
             

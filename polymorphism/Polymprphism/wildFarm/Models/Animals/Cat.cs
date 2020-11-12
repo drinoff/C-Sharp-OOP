@@ -6,6 +6,10 @@ namespace wildFarm.Models.Animals
 {
     public class Cat : Feline
     {
+        public Cat()
+        {
+
+        }
         public Cat(string name,double weight,string livingRegion,string breed)
             :base(name,weight,livingRegion,breed)
         {

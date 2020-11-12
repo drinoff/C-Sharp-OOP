@@ -6,6 +6,10 @@ namespace wildFarm.Models.Animals
 {
     public class Mouse : Mammal
     {
+        public Mouse()
+        {
+
+        }
         public Mouse(string name, double weight, string livingRegion) : base(name, weight, livingRegion)
         {
             this.eatableFood = new List<Type>() { typeof(Vegetable), typeof(Fruit) };
