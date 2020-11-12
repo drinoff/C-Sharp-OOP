@@ -6,7 +6,7 @@ using System.Text;
 
 namespace raiding.Models
 {
-    public class ConsoleReader : IReader
+    public  class ConsoleReader : IReader
     {
         public string Read() => Console.ReadLine();
         
